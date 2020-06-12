@@ -2,9 +2,10 @@
 {% load socialaccount %}
 
 {% block body %}
-<div class="container">
-
-  <button class="button is-link" onclick = "location.href = '#' "><a href="{% provider_login_url 'google' %}" class="btn btn-primary">GOOGLE LOGIN</a></button>
+<div class="row justify-content-center m-3">
+        <a href="{% provider_login_url 'google' %}" class="btn btn-primary col-4 align-self-center ">GOOGLE LOGIN</a>
+    </div>
 </div>
+  
 
 {% endblock %}

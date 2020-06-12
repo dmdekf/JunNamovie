@@ -11,15 +11,11 @@ class Article(models.Model):
     movie_title = models.CharField(max_length=45)
     user = models.ForeignKey(get_user_model(),
                              on_delete=models.CASCADE)
-    user = models.ForeignKey(get_user_model(),
-                             on_delete=models.CASCADE)
 
 
 class Comment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    user = models.ForeignKey(get_user_model(),
-                             on_delete=models.CASCADE)
     user = models.ForeignKey(get_user_model(),
                              on_delete=models.CASCADE)
