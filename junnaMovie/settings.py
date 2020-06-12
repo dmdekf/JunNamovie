@@ -40,10 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-<<<<<<< HEAD
-
-=======
->>>>>>> 4a3b79c5104ad01173dcf9e4229b8a3b27a246d5
     # app
     'accounts',
     'movies',

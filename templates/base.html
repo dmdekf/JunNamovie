@@ -1,5 +1,4 @@
-{% load key %}
-{% FONTAWSOME_KEY as FONTAWSOME_KEY %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,5 +17,7 @@
     {% include '_navbar.html' %}
     {% block body %}
     {% endblock body %}
+    {% block script %}
+    {% endblock %}
 </body>
 </html>

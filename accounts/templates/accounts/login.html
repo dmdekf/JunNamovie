@@ -1,15 +1,10 @@
 {% extends 'base.html' %}
-{% load bulma_tags %}
-{% comment %} {% load socialaccount %}
-
+{% load socialaccount %}
 
 {% block body %}
 <div class="container">
-    <h1 class="title has-text-centered">로그인</h1>
-    <form method="POST">
-    {% csrf_token %}
-    <a href="{% provider_login_url 'google' %}" class="btn btn-primary">GOOGLE LOGIN</a>
-    </form>
+
+  <button class="button is-link" onclick = "location.href = '#' "><a href="{% provider_login_url 'google' %}" class="btn btn-primary">GOOGLE LOGIN</a></button>
 </div>
 
-{% endblock %} {% endcomment %}
+{% endblock %}

@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 import csv
 # Create your models here.
 
+
 class Genre(models.Model):
     type = models.CharField(max_length=150)
 
@@ -28,7 +29,6 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.title
-
 
 
 class Score(models.Model):

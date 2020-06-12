@@ -7,7 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm
 
 
 def login(request):
-    pass
+    return render(request, 'accounts/login.html')
 
 
 def logout(request):

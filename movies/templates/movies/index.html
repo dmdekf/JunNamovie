@@ -1,14 +1,5 @@
-<<<<<<< HEAD
-{% extends 'base.html' %}
-{% load static %}
-{% load humanize %}
-{% block body %}
-<h1>Movie Home</h1>
-{% endblock %}
-=======
 <h1>영화 목록</h1>
 {% for movie in movies %}
     {{ movie.title }}
     {{ movie.popularity }}
 {% endfor %}
->>>>>>> 4a3b79c5104ad01173dcf9e4229b8a3b27a246d5
