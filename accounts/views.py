@@ -20,4 +20,6 @@ def logout(request):
 
 
 def signup(request):
-    pass
+    if request.user.is_authenticated:
+        return redirect('movies:index')
+    return render(request, 'accounts/login.html')
