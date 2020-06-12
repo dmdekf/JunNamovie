@@ -10,17 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'ccw5&9k^7yspr5u8xp^s8ij)6%ri#kc_cmep#n+ra-s%^wrk)1'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -28,22 +25,32 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-# Application definition
-
 INSTALLED_APPS = [
-    'corsheaders',
+    # pip install
+    'bootstrap_pagination',
     'django_extensions',
+
+    'corsheaders',
     'rest_framework',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
     # app
     'accounts',
     'movies',
     'articles'
+
+    # django-allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 
 ]
 
@@ -63,7 +70,9 @@ ROOT_URLCONF = 'junnaMovie.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,7 +137,34 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
 AUTH_USER_MODEL = 'accounts.User'
+
+# allauth setting
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+
+# django-allauth Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+LOGIN_REDIRECT_URL = '/movies/'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True

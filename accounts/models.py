@@ -4,8 +4,6 @@ from django.conf import settings
 
 
 class User(AbstractUser):
-    age = models.IntegerField()
-    gender = models.BooleanField()
 
     def get_score(self):
         return round(self.score.aggregate(model))
