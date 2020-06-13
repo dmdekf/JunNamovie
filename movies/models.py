@@ -29,7 +29,7 @@ class Movie(models.Model):
     vote_count = models.IntegerField(blank=True)
     gen = models.ManyToManyField(Genre, related_name='movies', blank=True)
     genres = models.TextField()
-
+    
     def __str__(self):
         return self.title
 

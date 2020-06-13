@@ -1,12 +1,10 @@
-from movies.models import Movie, Genre
 import csv
 import os
 import django
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'junnaMovie.settings')
 django.setup()
 
-
+from movies.models import Movie, Genre
 with open("dummy.csv", newline='', encoding='utf-8') as csvfile:
     data_reader = csv.reader(csvfile)
     next(data_reader)

@@ -5,8 +5,11 @@ from .models import Movie
 
 
 def index(request):
-    movies = Movie.objects.order_by('-pk')
-    context = {
-        'movies': movies,
-    }
-    return render(request, 'movies/index.html', context)
+    return render(request, 'movies/index.html')
+
+# def index(request):
+#     movies = Movie.objects.order_by('-pk')
+#     context = {
+#         'movies': movies,
+#     }
+#     return render(request, 'movies/index.html', context)
