@@ -3,12 +3,6 @@ from .models import Article, Comment
 from accounts.serializers import UserSerializer
 
 
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = '__all__'
-
-
 class ArticleListSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
@@ -17,12 +11,14 @@ class ArticleListSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ArticleSerializer(serializers.ModelSerializer):
-    user = UserSerializer(required=False)
-    created_at = serializers.DateTimeField(required=False)
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'
+
+
+class ArticleSerializer(ArticleListSerializer):
     comments = CommentSerializer(many=True, read_only=True)
 
-    class Meta:
-        model = Article
+    class Meta(ArticleListSerializer.Meta):
         fields = '__all__'
-        read_only_fields = ('id', 'user', 'created_at', 'updated_at')
