@@ -9,12 +9,11 @@ router = routers.DefaultRouter()
 
 router.register(r'comments', views.CommentViewset)
 router.register(r'articlelist', views.ArticleListViewset)
-router.register(r'articledetail', views.ArticleDetailViewset)
 
 urlpatterns = [
-    # path('create/', views.create, name="create"),
+    path('create/', views.create),
     # path('update/<int:article_pk>', views.update, name="update"),
-    # path('<int:article_pk>', views.article_detail, name="article_detail"),
+    path('<int:article_pk>', views.article_detail),
     # path('delete/<int:article_pk>', views.delete, name="delete"),
     url(r'^api/', include((router.urls, app_name))),
 ]

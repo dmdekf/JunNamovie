@@ -3,8 +3,9 @@ from .serializers import ArticleSerializer, CommentSerializer, ArticleListSerial
 from .models import Article, Comment
 
 from rest_framework import viewsets
-from rest_framework.decorators import action
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 
@@ -19,17 +20,14 @@ class ArticleListViewset(viewsets.ReadOnlyModelViewSet):
     # permission_classes = (permissions.IsAuthenticatedOrReadOnly,
     #                       IsOwnerOrReadOnly,)
 
-    # @action(detail=True, methods=['post'])
-    # def create(self, request, pk=None):
 
-
-class ArticleDetailViewset(viewsets.ModelViewSet):
-    queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
-
-
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create(request):
-    pass
+    serializer = ArticleSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(user=request.user)  # NOT NULL CONSTRAINT FAILED
+        return Response(serializer.data)
 
 
 def update(request, article_pk):

@@ -17,8 +17,11 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ArticleSerializer(ArticleListSerializer):
+class ArticleSerializer(serializers.ModelSerializer):
+    user = UserSerializer(required=False)
     comments = CommentSerializer(many=True, read_only=True)
 
-    class Meta(ArticleListSerializer.Meta):
+    class Meta:
+        model = Article
         fields = '__all__'
+        read_only_fields = ('comments',)
