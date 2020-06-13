@@ -15,7 +15,7 @@ with open('dummy.csv', 'w', encoding='utf-8', newline='') as f:
 
     API_KEY = '2c07b9f6a977110648eb9cc6b745c51b'
 
-    for i in range(100, 105):
+    for i in range(100, 300):
 
         URL = f'https://api.themoviedb.org/3/movie/{i}?api_key={API_KEY}'
         data = requests.get(URL).json()

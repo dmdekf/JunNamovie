@@ -1,9 +1,19 @@
-{% extends 'base.html' %}
-{% block body %}
 <h1>영화 목록</h1>
 {% for movie in movies %}
-    {{ movie.title }}
-    {{ movie.popularity }}
+    영화제목 : {{ movie.title }}
+    <br>
+    개봉일 : {{ movie.release }}
+    <br>
+    장르 :
+    {% for g in movie.gen.all %}
+        {{ g.type }},
+    {% endfor %}<br>
+    <hr>
 {% endfor %}
-{% endblock body %}
+
+{% for genre in genres %}
+    장르 코드 : {{ genre.code }}<br>
+    장르 이름 : {{ genre.type }}
+    <br><hr>
+{% endfor %}
 
