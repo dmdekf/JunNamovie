@@ -42,6 +42,6 @@ class Score(models.Model):
     #     return self.movie.id
 
 
-class recommend(models.Model):
+class Recommend(models.Model):
     like_movie_genre = models.CharField(max_length=45)
     recommend_genre = models.ManyToManyField(Genre, related_name='recommends')
