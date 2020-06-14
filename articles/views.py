@@ -2,14 +2,19 @@ from django.shortcuts import render, get_object_or_404
 from .serializers import ArticleSerializer, CommentSerializer, ArticleListSerializer
 from .models import Article, Comment
 
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+
+from .permissions import IsOwnerOrReadOnly
 # Create your views here.
 
 
 class CommentViewset(viewsets.ModelViewSet):
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
@@ -30,8 +35,8 @@ def create(request):
         return Response(serializer.data)
 
 
-def update(request, article_pk):
-    pass
+def index(request):
+    return render(request, 'articles/index.html')
 
 
 def article_detail(request, article_pk):

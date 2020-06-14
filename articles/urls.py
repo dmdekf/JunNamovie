@@ -11,7 +11,8 @@ router.register(r'comments', views.CommentViewset)
 router.register(r'articlelist', views.ArticleListViewset)
 
 urlpatterns = [
-    path('create/', views.create),
+    path('api/article_create/', views.create),
+    path('', views.index),
     # path('update/<int:article_pk>', views.update, name="update"),
     path('<int:article_pk>', views.article_detail),
     # path('delete/<int:article_pk>', views.delete, name="delete"),

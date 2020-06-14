@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div class="container">
+    <h1>게시판</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col-1">순서</th>
+          <th scope="col-3">제목</th>
+          <th scope="col-9">내용</th>
+          <th scope="col-2">작성자</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="article in articles" :key="`article_${article.id}`">
+          <td>[[article]]</td>
+          <td>[[ article.id ]]</td>
+          <td>[[ article.title ]]</td>
+          <td>[[ article.content ]]</td>
+          <td>[[ article.user.username ]]</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>    
+{% endblock %}
+
+{% block script %}
+<script>
+const SERVER_URL = "http://localhost:8000/";
+const index = new Vue({
+    el: '#app',
+    delimiters: ['[[', ']]'],
+    data: {
+      articles:[]
+    },
+    
+    created() {
+        axios
+        .get(SERVER_URL + "articles/api/articlelist/")
+        .then(res => (this.articles = res.data))
+        .catch(err => console.error(err));
+  }
+  })
+</script>
+{% endblock %}
