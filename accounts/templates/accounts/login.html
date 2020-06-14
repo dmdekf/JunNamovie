@@ -3,11 +3,11 @@
 
 {% block body %}
 <div class="row m-3 justify-content-center">
-    <a href="{% provider_login_url 'google' %}" class="btn btn-primary col-4 align-self-center ">GOOGLE LOGIN</a>
+    <a href="{% provider_login_url 'google' %}" class="btn btn-primary col-4 align-self-center "><i class="fab fa-google pr-1"></i> | Signin with Google  </a>
     <div class="w-100 my-2"></div>
-    <a href="{% provider_login_url 'github' %}" class="btn btn-dark col-4 align-self-center  ">GITHUB LOGIN</a>
+    <a href="{% provider_login_url 'github' %}" class="btn btn-github col-4 align-self-center"><i class="fab fa-github pr-1"></i> | Signin with GitHub  </a>
     
-</div>
+</>
   
 
 {% endblock %}

@@ -1,31 +1,67 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'articles/stylesheets/index.css' %}">
+{% endblock %}
+
 {% block body %}
-<div class="container">
-    <h1>게시판</h1>
-    <div class="text-right"> 
-    <button type="button" class="btn btn-light m-2">새 글 쓰기</button>
+<template>
     <div>
-    <table class="table text-center">
-      <thead>
-        <tr>
-          <th scope="col-1">순서</th>
-          <th scope="col-3">제목</th>
-          <th scope="col-9">내용</th>
-          <th scope="col-2">작성자</th>
-          
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="article in articles" :key="`article_${article.id}`">
-          <td>[[ article.id ]]</td>
-          <td>[[ article.title ]]</td>
-          <td>[[ article.content ]]</td>
-          <td>[[ article.user.username ]]</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+        <h1>게시판</h1>
+        {% if user.is_active %}
+        <button type="button" class="btn btn-light m-2">새 글 쓰기</button>
+        {% endif %}
+        <div v-for="article in articles" :key="article.id" v-on:click="onArticleSelect(article)">  
+            <div class="container bootstrap snippet my-3">
+                <div class="col-sm-8">
+                    <div class="panel panel-white post panel-shadow">
+                        <div class="post-heading">
+                            <div class="pull-left image">
+                                <img src="https://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
+                            </div>
+                            <div class="pull-left meta">
+                            <div class="title h5">
+                                <b>[[ article.user.username ]]</b>
+                                made a post.
+                            </div>
+                            <h6 class="text-muted time">[[ moment(article.created_at).format("LLLL")]]</h6>
+                            </div>
+                        </div> 
+                        <div class="post-description"> 
+                            <p>[[ article.content]]</p>
+                            <div class="stats">
+                                <a href="#" class="btn btn-outline-info stat-item">
+                                    <i class="fa fa-thumbs-up icon"></i>2
+                                </a>
+                            </div>
+                        </div>
+                        <div class="post-footer">
+                            <div class="input-group"> 
+                                <input class="form-control mr-1" placeholder="Add a comment" type="text">
+                                <span class="input-group-addon">
+                                    <a href="#" class="btn btn-outline-primary"><i class="fa fa-edit"></i></a>  
+                                </span>
+                            </div>
+                            <ul class="comments-list" v-for="comment in article.comments">
+                                <li class="comment">
+                                    <a class="pull-left" href="#">
+                                        <img class="avatar" src="https://bootdey.com/img/Content/user_1.jpg" alt="avatar">
+                                    </a>
+                                    <div class="comment-body">
+                                        <div class="comment-heading">
+                                            <h4 class="user">[[ comment.user]]</h4>
+                                            <h5 class="time">[[ moment(comment.created_at).format("LLLL")]]</h5>
+                                        </div>
+                                        <p>[[ comment.content ]]</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>    
 {% endblock body%}
 
@@ -36,7 +72,9 @@ const index = new Vue({
     el: '#app',
     delimiters: ['[[', ']]'],
     data: {
-      articles:[]
+      articles:[],
+      selectedArticle: null,
+      article:null
     },
     
     created() {
@@ -44,6 +82,13 @@ const index = new Vue({
         .get(SERVER_URL + "articles/api/articlelist/")
         .then(res => (this.articles = res.data))
         .catch(err => console.error(err));
+  },
+  methods:{
+      {% comment %} onArticleSelect: function(article) {
+        const url = "{% url "articles:detail" 123 %}".replace('123',`${article.id}`)
+        console.log(url)
+        return location.href="{% url "articles:detail" 123 %}".replace('123',`${article.id}`)
+      } {% endcomment %}
   }
   })
 </script>

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div class="container">
+    <h1>글 상세보기</h1>
+        <p>{{ article }}</p>
+        <p>{{ article.id}}</p>
+        <p>{{ article.user.username}}</p>
+        <p>{{ article.title}}</p>
+        <p>{{ article.movie_title}}</p>
+        <p>{{ article.content}}</p>
+        <p>{{ article.created_at}}</p>
+        <p>{{ article.updated_at}}</p>
+        <p>{{ article.comments}}</p>
+    <div class="columns is-centered" style="margin-top: 2rem; margin-bottom: 5rem;" id="comments">
+      <div class="column comments" style="max-width: 650px; padding: 0;">
+        {% include 'articles/comments.html' %}
+      </div>
+    </div>
+  </div>
+</template>    
+{% endblock body%}
+
+{% block script %}
+<script>
+const SERVER_URL = "http://localhost:8000/";
+const detail = new Vue({
+    el: '#comments',
+    delimiters: ['[[', ']]'],
+    data: {
+      commentsList:[],
+      commentData:{
+          content:null,
+          article:null,
+          user:null
+      },
+    },
+    
+    created() {
+        axios
+        .get(SERVER_URL + "articles/api/article/")
+        .then(res => (this.articles = res.data))
+        .catch(err => console.error(err));
+  },
+  methods:{
+      createComment: function(username) {
+        axios.post(SERVER_URL+'articles/api/comments/create/' , this.commentData, config)
+          .then(res => {
+            this.commentList.push(res.data);
+            this.rating.comment = '';
+          })
+          .catch(err => console.log(err))
+      },
+      deleteComment: function(id) {
+        if (window.confirm('정말 삭제하시겠습니까?')) {
+          axios.delete(SERVER_URL+'articles/api/comments/'+id)
+            .then(res => {
+              this.commentList = this.commentList.filter(commentData => commentData.id !== id);
+            })
+            .catch(err => console.log(err));
+        }
+      },
+  }
+  })
+</script>
+{% endblock script %}

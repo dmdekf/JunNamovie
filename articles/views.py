@@ -13,7 +13,7 @@ from .permissions import IsOwnerOrReadOnly
 
 class CommentViewset(viewsets.ModelViewSet):
     permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+        permissions.IsAuthenticatedOrReadOnly,)
 
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -26,6 +26,15 @@ class ArticleListViewset(viewsets.ReadOnlyModelViewSet):
     #                       IsOwnerOrReadOnly,)
 
 
+def index(request):
+    return render(request, 'articles/index.html')
+
+
+def detail(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    return render(request, 'articles/detail.html', {'article': article})
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create(request):
@@ -35,12 +44,12 @@ def create(request):
         return Response(serializer.data)
 
 
-def index(request):
-    return render(request, 'articles/index.html')
-
-
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def article_detail(request, article_pk):
-    pass
+    article = get_object_or_404(Article, pk=article_pk)
+    serializer = ArticleSerializer(article)
+    return Response(serializer.data)
 
 
 def delete(request, article_pk):
