@@ -21,7 +21,9 @@
 
   - ModelViewSet : get, put 요청 가능
 
-
+- 시간 표현 : vue-moment 이용(cdn)
+- text post type 출처.
+  - https://www.bootdey.com/snippets/view/Social-post#html
 
 python manage.py makemigrations
 python manage.py migrate
