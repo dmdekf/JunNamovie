@@ -3,7 +3,10 @@
 {% block body %}
 <div class="container">
     <h1>게시판</h1>
-    <table class="table">
+    <div class="text-right"> 
+    <button type="button" class="btn btn-light m-2">새 글 쓰기</button>
+    <div>
+    <table class="table text-center">
       <thead>
         <tr>
           <th scope="col-1">순서</th>
@@ -15,7 +18,6 @@
       </thead>
       <tbody>
         <tr v-for="article in articles" :key="`article_${article.id}`">
-          <td>[[article]]</td>
           <td>[[ article.id ]]</td>
           <td>[[ article.title ]]</td>
           <td>[[ article.content ]]</td>
@@ -25,7 +27,7 @@
     </table>
   </div>
 </template>    
-{% endblock %}
+{% endblock body%}
 
 {% block script %}
 <script>
@@ -45,4 +47,4 @@ const index = new Vue({
   }
   })
 </script>
-{% endblock %}
+{% endblock script %}

@@ -21,11 +21,9 @@
 </head>
 <body>
     {% include '_navbar.html' %}
-    <div class="container my-3">
-    <div id="app">
+    <div id="app" class="container my-3">
     {% block body %}
     {% endblock body %}
-    </div>
     </div>
     {% include '_footer.html' %}
     {% block script %}
