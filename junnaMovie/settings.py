@@ -18,7 +18,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ccw5&9k^7yspr5u8xp^s8ij)6%ri#kc_cmep#n+ra-s%^wrk)1'
 
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -26,12 +25,15 @@ ALLOWED_HOSTS = ['*']
 
 
 INSTALLED_APPS = [
+
     # pip install
     'bootstrap_pagination',
     'django_extensions',
 
     'corsheaders',
+    # DRF
     'rest_framework',
+    'rest_framework.authtoken',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,12 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    # app
-    'accounts',
-    'movies',
-    'articles',
 
     # django-allauth
+    # rest_auth
+    'rest_auth',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -53,6 +53,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.gitlab',
 
+    # app
+    'accounts',
+    'movies',
+    'articles'
 ]
 
 MIDDLEWARE = [
@@ -169,11 +173,25 @@ SOCIALACCOUNT_PROVIDERS = {
     'github': {
         'SCOPE': [
             'user',
+            'email',
             'repo',
             'read:org',
         ],
     }
 }
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
 
 LOGIN_REDIRECT_URL = '/movies/'
 
