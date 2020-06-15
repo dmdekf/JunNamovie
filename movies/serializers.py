@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
-from .models import Genre, Movie, Score, Recommend
+from .models import Genre, Movie, Score
 
 
 class ScoreSerializer(serializers.ModelSerializer):
@@ -11,9 +10,16 @@ class ScoreSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class MovieListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Movie
+        fields = "__all__"
+
+
 class MovieSerializer(serializers.ModelSerializer):
-    movie_scores = ScoreSerializer(many=True, read_only=True)
-    genres = serializers.StringRelatedField(many=True)
+    # score = ScoreSerializer(many=True, read_only=True)
+    # genres = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Movie

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'movies/stylesheets/movie_detail.css' %}">
+{% endblock %}
+{% block body %}
+<template>
+    <section class="section about-section gray-bg" id="about">
+        <div class="container">
+            <div class="row align-items-center flex-row-reverse">
+                <div class="col-lg-6">
+                    <div class="about-text go-to">
+                        <h3 class="dark-color">{{ movie.title }}</h3>
+                        <h6 class="theme-color lead">{{ movie.tagline }}</h6>
+                        <p>{{ movie.overview }}</p>
+                        <div class="row about-list">
+                            <div class="col-md-6">
+                                <div class="media">
+                                    <label>개봉일</label>
+                                    <p>{{ movie.release }}</p>
+                                </div>
+                                <div class="media">
+                                    <label>runtime</label>
+                                    <p>{{ movie.runtime }}</p>
+                                </div>
+                                <div class="media">
+                                    <label>관객 수</label>
+                                    <p>{{ movie.popularity }}</p>
+                                </div>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-avatar">
+                        <img src="https://image.tmdb.org/t/p/original//{{movie.poster_URL}}" title="movie poster image" alt="movie poster">
+                    </div>
+                </div>
+            </div>
+            <div class="counter my-4">
+                <div class="row">
+                    <div class="col-6 col-lg-3">
+                        <div class="count-data text-center">
+                            <h6 class="count h2" data-to="500" data-speed="500">{{movie.vote_aver}}</h6>
+                            <p class="m-0px font-w-600">평점</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="count-data text-center">
+                            <h6 class="count h2">{{ movie.vote_count }}</h6>
+                            <p class="m-0px font-w-600">투표 인원</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="count-data text-center">
+                            <h6 class="count h2" data-to="850" data-speed="850">850</h6>
+                            <p class="m-0px font-w-600">별점(user)</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="count-data text-center">
+                            <h6 class="count h2" data-to="190" data-speed="190">190</h6>
+                            <p class="m-0px font-w-600">투표 인원(user)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+{% endblock %}
+
+{% block script %}
+<script>
+  const detail = new Vue({
+    el: '#app',
+    delimiters: ['[[', ']]'],
+    data: {
+      
+    },
+
+    methods: {
+    },
+
+    created() {
+      axios.get()
+        .then(res => {
+          this.ratingList = res.data;
+        })
+        .catch(err => console.log(err));
+    }
+  })
+
+</script>
+{% endblock %}

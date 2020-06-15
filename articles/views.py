@@ -20,13 +20,14 @@ class CommentViewset(viewsets.ModelViewSet):
 
 
 class ArticleListViewset(viewsets.ReadOnlyModelViewSet):
-    queryset = Article.objects.all()
+    queryset = Article.objects.order_by('-pk')
     serializer_class = ArticleListSerializer
     # permission_classes = (permissions.IsAuthenticatedOrReadOnly,
     #                       IsOwnerOrReadOnly,)
 
 
 def index(request):
+    print(request.user)
     return render(request, 'articles/index.html')
 
 
@@ -35,7 +36,7 @@ def detail(request, article_pk):
     return render(request, 'articles/detail.html', {'article': article})
 
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def create(request):
     serializer = ArticleSerializer(data=request.data)
