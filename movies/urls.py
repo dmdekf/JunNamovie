@@ -19,9 +19,13 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     path('', views.index, name='index'),
+
     path('movies/<int:pk>/', views.movies_view, name="movies_view"),
     path('api/movies/', views.movies_list, name="movies_list"),
     path('api/genres/', views.genres_list, name="genres_list"),
     path('api/genres/<int:pk>/', views.genres_detail, name="genres_detail"),
+
+    path('api/movies/<int:pk>/score/', views.input_score, name="input_score"),
+
     url(r'^api/', include((router.urls, app_name)))
 ]

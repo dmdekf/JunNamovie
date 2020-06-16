@@ -8,6 +8,8 @@ from .models import Genre, Movie, Score
 from .serializers import GenreSerializer, MovieSerializer, MovieListSerializer, ScoreSerializer
 import json
 import os
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 # Create your views here.
 
@@ -58,8 +60,41 @@ def movies_view(request, pk):
     return render(request, 'movies/movie_detail.html', {'movie': movie})
 
 
+@api_view(["GET", "POST"])
+def input_score(request, pk):
+    movie = get_object_or_404(Movie, pk=pk)
+    if request.method == "GET":
+        scores = movie.scores.all()
+        serializer = ScoreSerializer(scores, many=True)
+        return Response(serializer.data)
+    else:
+        if request.user.is_authenticated:
+            request.data["movie"] = movie.id
+            request.data["user"] = request.user.id
+            serializer = RatingSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
 @api_view(["GET"])
 def movies_detail(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
     serializer = MovieSerializer(movie)
     return Response(serializer.data)
+
+    # item number per page
+    num_page = 10
+    paginator = Paginator(data, num_page)
+    page = request.GET.get('page')
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        contacts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        contacts = paginator.page(paginator.num_pages)
+    return render(request, 'brand/basic.html', context={'catid': catid, 'contacts': contacts})
