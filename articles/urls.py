@@ -11,10 +11,10 @@ router.register(r'articlelist', views.ArticleListViewset)
 
 urlpatterns = [
     path('', views.index, name="index"),
-    path('<int:article_pk>/', views.detail, name="detail"),
+    # path('<int:article_pk>/', views.detail, name="detail"),
     # path('api/article_create/', views.create),
     # path('update/<int:article_pk>', views.update, name="update"),
-    path('api/article/<int:article_pk>/', views.article_detail),
+    # path('api/article/<int:article_pk>/', views.article_detail),
     # path('delete/<int:article_pk>', views.delete, name="delete"),
     url(r'^api/', include((router.urls, app_name))),
 ]
