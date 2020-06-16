@@ -14,7 +14,7 @@ body {
 }
 
 .employers-list-img img {
-  max-width: 80px;
+  max-width: 100px;
   -webkit-box-shadow: 0 0 5px 0px #d7d7d7;
   box-shadow: 0 0 5px 0px #d7d7d7;
 }
@@ -128,5 +128,9 @@ body {
 }
 
 .f-14 {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 14px;
 }

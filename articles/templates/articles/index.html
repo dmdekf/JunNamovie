@@ -41,7 +41,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button @click="onArticleCreate()" class="btn btn-primary">작성하기</button>
+                    <button @click="onArticleCreate({{user.id}})" class="btn btn-primary">작성하기</button>
                 </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                             </div>
                             <div class="pull-left meta">
                             <div class="title h5">
-                                <b>[[ article.user.username ]]</b>
+                                <b>[[ article.user ]]</b>
                                 made a post.
                             </div>
                             <h6 class="text-muted time">[[ moment(article.created_at).format("LLLL")]]</h6>
@@ -114,6 +114,7 @@ const index = new Vue({
       articles:[],
       selectedArticle: null,
       articleCreateData: {
+        user:"",
         title: null,
         movie_title:null,
         content: null,
@@ -128,16 +129,10 @@ const index = new Vue({
         
   },
   methods:{
-      onArticleCreate: function() {
-        var csrftoken = Cookies.get("csrf-token");
-        console.log(csrftoken)
-        const config = {
-        headers: {
-          csrftoken: `Token ${csrftoken}`
-            }
-        };
+      onArticleCreate: function(user) {
+        this.articleCreateData.user=user
         axios
-        .post(SERVER_URL + "articles/api/article_create/",  this.articleCreateData, config)
+        .post(SERVER_URL + "articles/api/articlelist/",  this.articleCreateData)
         .then(res =>{
             console.log(res.data)
             this.articles.push(res.data);

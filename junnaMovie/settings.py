@@ -44,12 +44,8 @@ INSTALLED_APPS = [
     # 'rest_framework.authtoken',
 
 
-    # django-allauth
-    # rest_auth
-    'rest_auth',
     'allauth',
     'allauth.account',
-    'rest_auth.registration',
 
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',

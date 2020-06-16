@@ -19,30 +19,32 @@ class CommentViewset(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
 
 
-class ArticleListViewset(viewsets.ReadOnlyModelViewSet):
+class ArticleListViewset(viewsets.ModelViewSet):
     queryset = Article.objects.order_by('-pk')
     serializer_class = ArticleListSerializer
     # permission_classes = (permissions.IsAuthenticatedOrReadOnly,
     #                       IsOwnerOrReadOnly,)
 
 
+@api_view(['GET', 'POST'])
 def index(request):
-    print(request.user)
-    return render(request, 'articles/index.html')
+    if request.method == "GET":
+        return render(request, 'articles/index.html')
+    else:
+        if request.user.is_authenticated:
+            request.data["title"] = title
+            request.data["movie_title"] = movie_title
+            request.data["content"] = content
+            serializer = ArticleSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                # NOT NULL CONSTRAINT FAILED
+                serializer.save(user=request.user)
+                return render(request, 'articles/index.html')
 
 
 def detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     return render(request, 'articles/detail.html', {'article': article})
-
-
-@api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
-def create(request):
-    serializer = ArticleSerializer(data=request.data)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save(user=request.user)  # NOT NULL CONSTRAINT FAILED
-        return Response(serializer.data)
 
 
 @api_view(['GET', 'POST'])
