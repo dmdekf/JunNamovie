@@ -7,7 +7,7 @@
 {% block body %}
 <template>
     <div>
-        <h1>게시판</h1>
+        <h1>게시판</h1> 
         {% if user.is_active %}
         <button type="button" class="btn btn-light m-2"  data-toggle="modal" data-target="#articleModal">새 글 쓰기</button>
         <!-- Modal -->
@@ -65,20 +65,15 @@
                             </div>
                         </div> 
                         <div class="post-description">
-                            <h6>제목 : [[article.title]]</h6>
+                            <h6>제목 : [[article.title]]</h6> 
                             <small>영화제목 : [[article.movie_title]]</small>
                             <p>내용 : [[ article.content]]</p>
-                            <div class="stats">
-                                <a href="#" class="btn btn-outline-info stat-item">
-                                    <i class="fa fa-thumbs-up icon"></i>2
-                                </a>
-                            </div>
                         </div>
                         <div class="post-footer">
                             <div class="input-group"> 
                                 <input v-model="commentCreateData.content"class="form-control mr-1" placeholder="Add a comment" type="text">
                                 <span class="input-group-addon">
-                                    <button type="button" @click="onCommentCreate({{user.id}})"href="#" class="btn btn-outline-primary"><i class="fa fa-edit"></i></button>  
+                                    <button type="button" @click="onCommentCreate(user.id)"href="#" class="btn btn-outline-primary"><i class="fa fa-edit"></i></button>  
                                 </span>
                             </div>
                             <ul class="comments-list" v-for="comment in article.comments">
@@ -121,8 +116,9 @@ const index = new Vue({
       },
       commentCreateData: {
         user:"",
+        article:"",
         content: null,
-      }
+      },
     },
     
     created() {
@@ -148,7 +144,9 @@ const index = new Vue({
         .catch(err => console.error(err.response.data));
       },
       onCommentCreate: function(user) {
+        console.log(arg1,arg2)
         this.commentCreateData.user=user
+        this.commentCreateData.article=article
         axios
         .post(SERVER_URL + "articles/api/comments/",  this.commentCreateData)
         .then(res =>{
@@ -158,7 +156,7 @@ const index = new Vue({
         })
         .catch(err => console.error(err.response.data));
       },
-  }
+  },
   })
 </script>
 {% endblock script %}

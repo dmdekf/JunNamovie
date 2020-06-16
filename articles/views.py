@@ -10,21 +10,22 @@ from rest_framework.permissions import IsAuthenticated
 from .permissions import IsOwnerOrReadOnly
 # Create your views here.
 
+# def create(self, request, *args, **kwargs):
+#     serializer = self.get_serializer(data=request.data)
+#     serializer.is_valid(raise_exception=True)
+#     self.perform_create(serializer)
+#     headers = self.get_success_headers(serializer.data)
+#     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+# def perform_create(self, serializer):
+#     serializer.save()
+#     return Response(serializer.data)
+
 
 class CommentViewset(viewsets.ModelViewSet):
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,)
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-    def perform_create(self, serializer):
-        serializer.save()
-        return Response(serializer.data)
 
 
 class ArticleListViewset(viewsets.ModelViewSet):
@@ -32,6 +33,19 @@ class ArticleListViewset(viewsets.ModelViewSet):
     serializer_class = ArticleListSerializer
     # permission_classes = (permissions.IsAuthenticatedOrReadOnly,
     #                       IsOwnerOrReadOnly,)
+
+
+# @api_view(["POST"])
+# def Comment(request):
+#     if request.user.is_authenticated:
+#         request.data["content"] = content
+#         serializer = CommentSerializer(data=request.data)
+#         if serializer.is_valid(raise_exception=True):
+#             # NOT NULL CONSTRAINT FAILED
+#             serializer.save(user=request.user)
+#             return Response(serializer.data)
+#     queryset = Comment.objects.all()
+#     serializer_class = CommentSerializer
 
 
 @api_view(['GET', 'POST'])
