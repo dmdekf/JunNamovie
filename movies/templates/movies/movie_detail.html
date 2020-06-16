@@ -86,24 +86,21 @@
     el: '#app',
     delimiters: ['[[', ']]'],
     data: {
-        scoreList:[]
+        scoreList:[],
+        score:[]
       
     },
 
     methods: {
         InputScore: function(username) {
             axios
-            .post(SERVER_URL + "articles/api/article_create/",  this.articleCreateData, config)
+            .post('{% url 'movies:input_score' movie.id %}', this.score)
             .then(res =>{
-                console.log(res.data)
-                this.articles.push(res.data);
-                this.articleCreateData.title = '';
-                this.articleCreateData.movie_title = '';
-                this.articleCreateData.content = '';
-                
-            })
-            .catch(err => console.error(err));
-          }
+                this.scoreList.push(res.data);
+                this.score = 0;
+          })
+          .catch(err => console.log(err))
+      }
     },
 
     created() {

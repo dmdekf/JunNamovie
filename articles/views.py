@@ -12,11 +12,19 @@ from .permissions import IsOwnerOrReadOnly
 
 
 class CommentViewset(viewsets.ModelViewSet):
-    permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly,)
-
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        serializer.save()
+        return Response(serializer.data)
 
 
 class ArticleListViewset(viewsets.ModelViewSet):
@@ -39,7 +47,7 @@ def index(request):
             if serializer.is_valid(raise_exception=True):
                 # NOT NULL CONSTRAINT FAILED
                 serializer.save(user=request.user)
-                return render(request, 'articles/index.html')
+                return Response(serializer.data)
 
 
 def detail(request, article_pk):

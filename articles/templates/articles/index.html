@@ -41,7 +41,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button @click="onArticleCreate({{user.id}})" class="btn btn-primary">작성하기</button>
+                    <button type="button" @click="onArticleCreate({{user.id}})" class="btn btn-primary">작성하기</button>
                 </div>
                 </div>
             </div>
@@ -76,9 +76,9 @@
                         </div>
                         <div class="post-footer">
                             <div class="input-group"> 
-                                <input class="form-control mr-1" placeholder="Add a comment" type="text">
+                                <input v-model="commentCreateData.content"class="form-control mr-1" placeholder="Add a comment" type="text">
                                 <span class="input-group-addon">
-                                    <a href="#" class="btn btn-outline-primary"><i class="fa fa-edit"></i></a>  
+                                    <button type="button" @click="onCommentCreate({{user.id}})"href="#" class="btn btn-outline-primary"><i class="fa fa-edit"></i></button>  
                                 </span>
                             </div>
                             <ul class="comments-list" v-for="comment in article.comments">
@@ -118,6 +118,10 @@ const index = new Vue({
         title: null,
         movie_title:null,
         content: null,
+      },
+      commentCreateData: {
+        user:"",
+        content: null,
       }
     },
     
@@ -131,6 +135,7 @@ const index = new Vue({
   methods:{
       onArticleCreate: function(user) {
         this.articleCreateData.user=user
+        $('#articleModal').modal('hide')
         axios
         .post(SERVER_URL + "articles/api/articlelist/",  this.articleCreateData)
         .then(res =>{
@@ -139,10 +144,20 @@ const index = new Vue({
             this.articleCreateData.title = '';
             this.articleCreateData.movie_title = '';
             this.articleCreateData.content = '';
-            
         })
-        .catch(err => console.error(err));
-      }
+        .catch(err => console.error(err.response.data));
+      },
+      onCommentCreate: function(user) {
+        this.commentCreateData.user=user
+        axios
+        .post(SERVER_URL + "articles/api/comments/",  this.commentCreateData)
+        .then(res =>{
+            console.log(res.data)
+            this.articles.push(res.data);
+            this.commentCreateData.content = '';
+        })
+        .catch(err => console.error(err.response.data));
+      },
   }
   })
 </script>

@@ -1,3 +1,5 @@
+from .models import Movie
+from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 from rest_framework import status
@@ -98,3 +100,4 @@ def movies_detail(request, pk):
         # If page is out of range (e.g. 9999), deliver last page of results.
         contacts = paginator.page(paginator.num_pages)
     return render(request, 'brand/basic.html', context={'catid': catid, 'contacts': contacts})
+

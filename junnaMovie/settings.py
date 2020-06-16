@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     # 'rest_framework.authtoken',
 
+    'el_pagination',
 
     'allauth',
     'allauth.account',
