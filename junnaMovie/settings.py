@@ -155,7 +155,7 @@ AUTHENTICATION_BACKENDS = (
 
 # django site app setting
 SITE_ID = 1
-
+LOGIN_REDIRECT_URL = '/'
 # django-allauth Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
