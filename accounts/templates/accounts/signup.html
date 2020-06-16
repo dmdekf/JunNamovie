@@ -4,9 +4,17 @@
 {% block body %}
 <div class="row m-3 justify-content-center">
     <form method="POST" action="{% url 'accounts:signup' %}">
-    {% csrf_token %}
-        {{ form.as_p }}
-        <button class=" my-3 btn btn-primary btn-block" type="submit">확인</button>
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="fieldWrapper m-2">
+                {{ field.errors }}
+                {{ field.label_tag }}   
+                <p>
+                {{ field }}
+                </p>
+            </div>
+        {% endfor %}
+        <button class="my-3 btn btn-primary btn-block" type="submit">확인</button>
     </form>
 </div>
   

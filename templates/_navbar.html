@@ -9,10 +9,10 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'movies:index' %}">무비<span class="sr-only">(current)</span></a>
       </li>
+      {% if user.is_active %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'articles:index' %}">게시판</a>
       </li>
-      {% if user.is_active %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'accounts:logout' %}">로그아웃</a>
       </li>
@@ -25,5 +25,8 @@
       </li>
       {% endif %}
     </ul>
+      <div class="nav-item navbar-right">
+        <div class="font-weight-bold"> {{user.username}} </div>
+      </div>
   </div>
 </nav>

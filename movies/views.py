@@ -7,11 +7,13 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Genre, Movie, Score
+
 from .serializers import GenreSerializer, MovieSerializer, MovieListSerializer, ScoreSerializer
 import json
 import os
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -63,6 +65,7 @@ def movies_view(request, pk):
 
 
 @api_view(["GET", "POST"])
+@login_required
 def input_score(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
     if request.method == "GET":
@@ -100,4 +103,3 @@ def movies_detail(request, pk):
         # If page is out of range (e.g. 9999), deliver last page of results.
         contacts = paginator.page(paginator.num_pages)
     return render(request, 'brand/basic.html', context={'catid': catid, 'contacts': contacts})
-
