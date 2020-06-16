@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # DRF
     'rest_framework',
-    'rest_framework.authtoken',
+    # 'rest_framework.authtoken',
 
 
     # django-allauth
@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
-    'allauth.socialaccount.providers.gitlab',
 
     # app
     'accounts',
@@ -185,14 +184,11 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    ),
-}
-
-LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/accounts/getcode/'
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework.authentication.TokenAuthentication',
+#     ),
+# }
 
 
 CORS_ALLOW_CREDENTIALS = True

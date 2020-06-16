@@ -2,11 +2,40 @@
 {% load socialaccount %}
 {% load static %}
 {% block body %}
-<div class="row m-3 justify-content-center">
-    <a href="#" onclick="googleLogin()" class="btn btn-primary col-4 align-self-center "><i class="fab fa-google pr-1"></i> | Signin with Google  </a>
+<div class="row m-6 justify-content-center">
+    <form method="POST" action="{% url 'accounts:login' %}">
+        {% csrf_token %}
+        <div class="form-group">
+        <label for="username">아이디</label>
+        <input class="form-control" type="text" id="username" />
+        <small class="form-text text-muted">아이디를 작성해주세요</small>
+        <div class="form-group">
+        <label for="password">비밀번호</label>
+        <input class="form-control" type="password" id="password" />
+        <small class="form-text text-muted">비밀번호를 작성해주세요</small>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">확인</button>
+        </div>
+    </form>
     <div class="w-100 my-2"></div>
-    <a href="{% provider_login_url 'github' %}" class="btn btn-github col-4 align-self-center"><i class="fab fa-github pr-1"></i> | Signin with GitHub  </a>
-
+    <a href="#" onclick="googleLogin()" class="btn btn-primary col-3 align-self-center "><i class="fab fa-google pr-1"></i> | Signin with Google  </a>
+    <div class="w-100 my-2"></div>
+    <a href="{% provider_login_url 'github' %}" class="btn btn-github col-3 align-self-center"><i class="fab fa-github pr-1"></i> | Signin with GitHub  </a>
+</div>
   
 <script src="{% static 'accounts/js/social_login.js' %}"></script>
 {% endblock %}
+{% block scripts %}
+<script>
+const loginform = new Vue({
+    el: '#loginform',
+    delimiters: ['[[', ']]'],
+    data: {
+    loginData: {
+    username: null,
+    password: null
+    }
+    }
+})
+  </script>
+{% endblock scripts %}
