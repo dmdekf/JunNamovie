@@ -10,7 +10,6 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class ArticleListSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
     comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:

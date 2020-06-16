@@ -24,6 +24,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('movies/', include('movies.urls')),
     path('articles/', include('articles.urls')),
-    path('rest-auth/', include('rest_auth.urls')),
 
+    # rest-auth log_in, log_out
+    path('rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/signup/', include('rest_auth.registration.urls')),
 ]

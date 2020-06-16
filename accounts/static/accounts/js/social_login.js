@@ -10,16 +10,13 @@ function buildUrl(baseUrl, queries) {
 }
 
 function googleLogin() {
-  print("----------------");
   params = {
     response_type: "code",
     client_id:
-      "525887776863-6hlane191e75rv8pis7vi05st3j0rfci.apps.googleusercontent.com",
-    redirect_uri: "http://127.0.0.1:8000/accounts/google/login/callback/",
-    scope: "https://www.googleapis.com/auth/contacts.readonly",
-    state: document.querySelector("[name=csrfmiddlewaretoken]").value,
+      "525887776863-23ne2tiqrvn3d12sdefpc6bu7bqh97oe.apps.googleusercontent.com",
+    redirect_uri: "http://127.0.0.1:8000/accounts/getcode/",
+    scope: "profile",
   };
   url = buildUrl("https://accounts.google.com/o/oauth2/v2/auth", params);
   location.replace(url);
-  print("--####################------");
 }
