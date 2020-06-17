@@ -31,14 +31,14 @@
                             </div>
                             <div class="col-md-12">
                                 <ul class="employers-icons list-inline mb-1 my-5">
-                                    <ul v-for="n in 10">
+                                    <ul v-for="n in 1">
                                         <li class="list-inline-item"><a class="text-warning"><i class="mdi mdi-star f-19">점수 주기</i></a></li>
                                     </ul>
                                 </ul>
                                 <form method="POST" :action="'inputScore/'">
                                     {% csrf_token %}
                                     {{form}}
-                                    <button type="submit"> 점수 주기 </button>
+                                    <button type="submit" class="btn btn-warning"><i class="mdi mdi-star f-19">점수 주기</i></button>
                                 </form>
                             </div>
                         </div>

@@ -73,11 +73,11 @@
                             <div class="input-group"> 
                                 <form :action="article.id+'/commentcreate/'" method="post">
                                 {% csrf_token %}
-                                <div class="fieldWrapper">
+                                <div>
                                     {{ form }}
                                 </div>
                                 <span>
-                                    <button type="submit" class="btn btn-outline-primary"><i class="fa fa-edit">댓글 작성</i></button>  
+                                    <button type="submit" class="btn btn-info"><i class="far fa-comment-dots"></i> 댓글 쓰기</button>  
                                 </span>
                                 </form>
                             </div>
