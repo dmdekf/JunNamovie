@@ -35,10 +35,10 @@
                                         <li class="list-inline-item"><a class="text-warning"><i class="mdi mdi-star f-19">점수 주기</i></a></li>
                                     </ul>
                                 </ul>
-                                <form method="POST" action="inputScore/">
+                                <form method="POST" :action="'inputScore/'">
                                     {% csrf_token %}
-                                    {{form.as_p}}
-                                    <button type="submit">점수 </button>
+                                    {{form}}
+                                    <button type="submit"> 점수 주기 </button>
                                 </form>
                             </div>
                         </div>
@@ -66,13 +66,13 @@
                     </div>
                     <div class="col-6 col-lg-3">
                         <div class="count-data text-center">
-                            <h6 class="count h2" data-to="850" data-speed="850">{{ scoreAVG }}</h6>
+                            <h6 class="count h2" data-to="850" data-speed="850">{{scoreAVG}}</h6>
                             <p class="m-0px font-w-600">별점(user)</p>
                         </div>
                     </div>
                     <div class="col-6 col-lg-3">
                         <div class="count-data text-center">
-                            <h6 class="count h2" data-to="190" data-speed="190">{{ scoreCount }}</h6>
+                            <h6 class="count h2" data-to="190" data-speed="190">{{scoreCount}}</h6>
                             <p class="m-0px font-w-600">추천 인원(user)</p>
                         </div>
                     </div>
@@ -91,32 +91,7 @@
     el: '#app',
     delimiters: ['[[', ']]'],
     data: {
-        scoreList:[],
-        score:[],
-        scoreData: {
-            "score": 10,
-            "movie": 11,
-            "user": 1
         }
-    },
-
-    methods: {
-        inputScore: function() {
-            axios
-            .post(SERVER_URL + "movies/api/scores/", this.scoreData )
-            .then(res =>{
-                console.log(res.data)
-            })
-            .catch(err => console.error(err.response.data));
-        },
-    },
-
-    created() {
-        axios
-        .get(SERVER_URL+"movies/api/scores/")
-        .then(res => (this.scores=res.data))
-        .catch(err => cosole.error(err))
-    }
   })
 
 </script>

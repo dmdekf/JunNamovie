@@ -6,7 +6,6 @@ from django.conf.urls import url, include
 app_name = 'movies'
 
 router = routers.DefaultRouter()
-router.register(r'scores', views.ScoreViewset)
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -16,6 +15,6 @@ urlpatterns = [
     path('api/genres/', views.genres_list, name="genres_list"),
     path('api/genres/<int:pk>/', views.genres_detail, name="genres_detail"),
 
-    url(r'^api/', include((router.urls, pp_name))),
+    url(r'^api/', include((router.urls, app_name))),
     path('movies/<int:movie_pk>/inputScore/',
          views.inputScore, name="inputScore"), ]

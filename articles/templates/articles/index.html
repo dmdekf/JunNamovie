@@ -71,13 +71,13 @@
                         </div>
                         <div class="post-footer">
                             <div class="input-group"> 
-                                <form action="POST">
+                                <form :action="article.id+'/commentcreate/'" method="post">
                                 {% csrf_token %}
                                 <div class="fieldWrapper">
                                     {{ form }}
                                 </div>
                                 <span>
-                                    <button type="button" @click="onCommentCreate(user.id)"href="#" class="btn btn-outline-primary"><i class="fa fa-edit">댓글 작성</i></button>  
+                                    <button type="submit" class="btn btn-outline-primary"><i class="fa fa-edit">댓글 작성</i></button>  
                                 </span>
                                 </form>
                             </div>
@@ -119,11 +119,6 @@ const index = new Vue({
         movie_title:null,
         content: null,
       },
-      commentCreateData: {
-        user:"",
-        article:"",
-        content: null,
-      },
     },
     
     created() {
@@ -145,19 +140,6 @@ const index = new Vue({
             this.articleCreateData.title = '';
             this.articleCreateData.movie_title = '';
             this.articleCreateData.content = '';
-        })
-        .catch(err => console.error(err.response.data));
-      },
-      onCommentCreate: function(user) {
-        console.log(arg1,arg2)
-        this.commentCreateData.user=user
-        this.commentCreateData.article=article
-        axios
-        .post(SERVER_URL + "articles/api/comments/",  this.commentCreateData)
-        .then(res =>{
-            console.log(res.data)
-            this.articles.push(res.data);
-            this.commentCreateData.content = '';
         })
         .catch(err => console.error(err.response.data));
       },

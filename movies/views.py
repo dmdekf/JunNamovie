@@ -1,6 +1,5 @@
 from .models import Movie
-from django.shortcuts import render
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from rest_framework import status
 from rest_framework import viewsets, permissions
@@ -15,7 +14,7 @@ import os
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Sum, Count, Case, When, Avg, IntegerField, Value
 # Create your views here.
 
 
@@ -61,8 +60,18 @@ def movies_list(request):
 
 
 def movies_view(request, pk):
+    form = ScoreForm()
     movie = get_object_or_404(Movie, pk=pk)
-    return render(request, 'movies/movie_detail.html', {'movie': movie})
+
+    scoreAVG = Score.objects.filter(movie=pk).aggregate(Avg('score'))
+    scoreCount = Score.objects.filter(movie=pk).aggregate(Count('score'))
+    context = {
+        'movie': movie,
+        'form': form,
+        'scoreAVG': scoreAVG['score__avg'],
+        'scoreCount': scoreCount['score__count']
+    }
+    return render(request, 'movies/movie_detail.html', context)
 
 
 @api_view(["GET"])
@@ -81,7 +90,7 @@ def inputScore(request, movie_pk):
             score.user = request.user
             score.movie = movie
             score.save()
-        return redirect('movies:index')
+            return redirect('movies:index')
     else:
         messages.warning(request, '댓글 작성을 위해서는 로그인이 필요합니다.')
         return redirect('accounts:login')
