@@ -9,12 +9,10 @@ from .models import Genre, Movie, Score
 from .forms import ScoreForm
 from django.contrib import messages
 from .serializers import GenreSerializer, MovieSerializer, MovieListSerializer, ScoreSerializer
-import json
-import os
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum, Count, Case, When, Avg, IntegerField, Value
+from django.db.models import Sum, Count, Avg
 # Create your views here.
 
 
@@ -92,5 +90,5 @@ def inputScore(request, movie_pk):
             score.save()
             return redirect('movies:movies_view', movie_pk)
     else:
-        messages.warning(request, '댓글 작성을 위해서는 로그인이 필요합니다.')
+        messages.warning(request, '점수 등록을 위해서는 로그인이 필요합니다.')
         return redirect('accounts:login')
