@@ -90,7 +90,7 @@ def inputScore(request, movie_pk):
             score.user = request.user
             score.movie = movie
             score.save()
-            return redirect('movies:index')
+            return redirect('movies:movies_view', movie_pk)
     else:
         messages.warning(request, '댓글 작성을 위해서는 로그인이 필요합니다.')
         return redirect('accounts:login')
