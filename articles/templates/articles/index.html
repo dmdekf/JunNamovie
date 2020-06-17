@@ -11,7 +11,7 @@
         {% if user.is_active %}
         <button type="button" class="btn btn-light m-2"  data-toggle="modal" data-target="#articleModal">새 글 쓰기</button>
         <!-- Modal -->
-        <div class="modal fade" id="articleModal" tabindex="-1" role="dialog" aria-labelledby="articleModalLabel" aria-hidden="true">
+        <div class="modal fade articlemodal" id="articleModal" tabindex="-1" role="dialog" aria-labelledby="articleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -41,7 +41,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" @click="onArticleCreate({{user.id}})" class="btn btn-primary">작성하기</button>
+                    <button type="button" @click="onArticleCreate({{user.id}})" class="btn btn-primary articlemodal">작성하기</button>
                 </div>
                 </div>
             </div>
