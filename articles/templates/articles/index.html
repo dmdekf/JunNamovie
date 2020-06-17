@@ -73,12 +73,8 @@
                             <div class="input-group"> 
                                 <form :action="article.id+'/commentcreate/'" method="post">
                                 {% csrf_token %}
-                                <div>
-                                    {{ form }}
-                                </div>
-                                <span>
+                                    {{ form.as_p }}
                                     <button type="submit" class="btn btn-info"><i class="far fa-comment-dots"></i> 댓글 쓰기</button>  
-                                </span>
                                 </form>
                             </div>
                             <ul class="comments-list" v-for="comment in article.comments">
@@ -131,7 +127,7 @@ const index = new Vue({
   methods:{
       onArticleCreate: function(user) {
         this.articleCreateData.user=user
-        $('#articleModal').modal('hide')
+        {% comment %} $('#articleModal').modal('hide') {% endcomment %}
         axios
         .post(SERVER_URL + "articles/api/articlelist/",  this.articleCreateData)
         .then(res =>{

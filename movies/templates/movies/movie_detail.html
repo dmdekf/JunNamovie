@@ -29,12 +29,14 @@
                                     <p>{{ movie.popularity }}</p>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                    <button v-for="n in 10" class="btn text-warning mb-1"><i class="mdi mdi-star f-19"></i></div>
+                                <div class="col-12">
+                                    <button v-for="n in 10" class="btn text-warning">[[n]]<i class="mdi mdi-star f-19"></i></div>
                                 </span>
                                 <form method="POST" :action="'inputScore/'">
                                     {% csrf_token %}
+                                    <span class="fieldWrapper">
                                     {{form}}
+                                    </span>
                                     <button type="submit" class="btn btn-warning"><i class="mdi mdi-star f-19">점수 입력</i></button>
                                 </form>
                             </div>
