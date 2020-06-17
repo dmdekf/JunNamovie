@@ -6,6 +6,7 @@ from .forms import MyUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 # Create your views here.
 
 
@@ -24,6 +25,7 @@ def login(request):
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
+            messages.success(request, '로그인 되었습니다!')
             return redirect('/')
     else:
         form = AuthenticationForm()
@@ -49,6 +51,7 @@ def signup(request):
             user = form.save()
             auth_login(request, user,
                        backend='django.contrib.auth.backends.ModelBackend')
+            messages.success(request, '회원가입이 완료되었습니다.')
             return redirect('/')
     else:
         form = MyUserCreationForm()
@@ -56,4 +59,3 @@ def signup(request):
         'form': form
     }
     return render(request, 'accounts/signup.html', context)
-

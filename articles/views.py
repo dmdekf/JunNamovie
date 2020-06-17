@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from .forms import CommentForm
 from .permissions import IsOwnerOrReadOnly
 # Create your views here.
+from django.contrib import messages
 
 
 class CommentViewset(viewsets.ModelViewSet):
@@ -43,6 +44,7 @@ def index(request):
             if serializer.is_valid(raise_exception=True):
                 # NOT NULL CONSTRAINT FAILED
                 serializer.save(user=request.user)
+                messages.success(request, '글이 작성되었습니다.')
                 return Response(serializer.data)
 
 
@@ -56,6 +58,7 @@ def commentCreate(request, article_pk):
         comment.user = request.user
         comment.article = article
         comment.save()
+        messages.success(request, '댓글이 등록되었습니다.')
         return redirect('articles:index')
 
 

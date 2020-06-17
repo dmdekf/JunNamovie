@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .models import Genre, Movie, Score
 from .forms import ScoreForm
-
+from django.contrib import messages
 from .serializers import GenreSerializer, MovieSerializer, MovieListSerializer, ScoreSerializer
 import json
 import os
