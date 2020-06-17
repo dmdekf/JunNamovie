@@ -71,10 +71,15 @@
                         </div>
                         <div class="post-footer">
                             <div class="input-group"> 
-                                <input v-model="commentCreateData.content"class="form-control mr-1" placeholder="Add a comment" type="text">
-                                <span class="input-group-addon">
-                                    <button type="button" @click="onCommentCreate(user.id)"href="#" class="btn btn-outline-primary"><i class="fa fa-edit"></i></button>  
+                                <form action="POST">
+                                {% csrf_token %}
+                                <div class="fieldWrapper">
+                                    {{ form }}
+                                </div>
+                                <span>
+                                    <button type="button" @click="onCommentCreate(user.id)"href="#" class="btn btn-outline-primary"><i class="fa fa-edit">댓글 작성</i></button>  
                                 </span>
+                                </form>
                             </div>
                             <ul class="comments-list" v-for="comment in article.comments">
                                 <li class="comment">

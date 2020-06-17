@@ -32,9 +32,14 @@
                             <div class="col-md-12">
                                 <ul class="employers-icons list-inline mb-1 my-5">
                                     <ul v-for="n in 10">
-                                        <li class="list-inline-item"><a @click="InputScore()" class="text-warning"><i class="mdi mdi-star f-19"></i></a></li>
+                                        <li class="list-inline-item"><a class="text-warning"><i class="mdi mdi-star f-19">점수 주기</i></a></li>
                                     </ul>
                                 </ul>
+                                <form method="POST" action="inputScore/">
+                                    {% csrf_token %}
+                                    {{form.as_p}}
+                                    <button type="submit">점수 </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -61,13 +66,13 @@
                     </div>
                     <div class="col-6 col-lg-3">
                         <div class="count-data text-center">
-                            <h6 class="count h2" data-to="850" data-speed="850">850</h6>
+                            <h6 class="count h2" data-to="850" data-speed="850">{{ scoreAVG }}</h6>
                             <p class="m-0px font-w-600">별점(user)</p>
                         </div>
                     </div>
                     <div class="col-6 col-lg-3">
                         <div class="count-data text-center">
-                            <h6 class="count h2" data-to="190" data-speed="190">190</h6>
+                            <h6 class="count h2" data-to="190" data-speed="190">{{ scoreCount }}</h6>
                             <p class="m-0px font-w-600">추천 인원(user)</p>
                         </div>
                     </div>
@@ -87,28 +92,30 @@
     delimiters: ['[[', ']]'],
     data: {
         scoreList:[],
-        score:[]
-      
+        score:[],
+        scoreData: {
+            "score": 10,
+            "movie": 11,
+            "user": 1
+        }
     },
 
     methods: {
-        InputScore: function(username) {
+        inputScore: function() {
             axios
-            .post('{% url 'movies:input_score' movie.id %}', this.score)
+            .post(SERVER_URL + "movies/api/scores/", this.scoreData )
             .then(res =>{
-                this.scoreList.push(res.data);
-                this.score = 0;
-          })
-          .catch(err => console.log(err))
-      }
+                console.log(res.data)
+            })
+            .catch(err => console.error(err.response.data));
+        },
     },
 
     created() {
-      axios.get()
-        .then(res => {
-          this.ratingList = res.data;
-        })
-        .catch(err => console.log(err));
+        axios
+        .get(SERVER_URL+"movies/api/scores/")
+        .then(res => (this.scores=res.data))
+        .catch(err => cosole.error(err))
     }
   })
 

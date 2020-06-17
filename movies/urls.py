@@ -6,16 +6,7 @@ from django.conf.urls import url, include
 app_name = 'movies'
 
 router = routers.DefaultRouter()
-# router.register(r'articlelist', views.ArticleListViewset)
-# router.register(r'comments', views.CommentViewset)
-
-# urlpatterns = [
-#     # path('create/', views.create, name="create"),
-#     # path('update/<int:article_pk>', views.update, name="update"),
-#     # path('<int:article_pk>', views.article_detail, name="article_detail"),
-#     # path('delete/<int:article_pk>', views.delete, name="delete"),
-# ]
-
+router.register(r'scores', views.ScoreViewset)
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -25,7 +16,6 @@ urlpatterns = [
     path('api/genres/', views.genres_list, name="genres_list"),
     path('api/genres/<int:pk>/', views.genres_detail, name="genres_detail"),
 
-    path('api/movies/<int:pk>/score/', views.input_score, name="input_score"),
-
-    url(r'^api/', include((router.urls, app_name)))
-]
+    url(r'^api/', include((router.urls, pp_name))),
+    path('movies/<int:movie_pk>/inputScore/',
+         views.inputScore, name="inputScore"), ]

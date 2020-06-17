@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .serializers import ArticleSerializer, CommentSerializer, ArticleListSerializer
 from .models import Article, Comment
 
@@ -6,7 +6,7 @@ from rest_framework import viewsets, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-
+from .forms import CommentForm
 from .permissions import IsOwnerOrReadOnly
 # Create your views here.
 
@@ -35,23 +35,14 @@ class ArticleListViewset(viewsets.ModelViewSet):
     #                       IsOwnerOrReadOnly,)
 
 
-# @api_view(["POST"])
-# def Comment(request):
-#     if request.user.is_authenticated:
-#         request.data["content"] = content
-#         serializer = CommentSerializer(data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             # NOT NULL CONSTRAINT FAILED
-#             serializer.save(user=request.user)
-#             return Response(serializer.data)
-#     queryset = Comment.objects.all()
-#     serializer_class = CommentSerializer
-
-
 @api_view(['GET', 'POST'])
 def index(request):
+    form = CommentForm()
+    context = {
+        'form': form,
+    }
     if request.method == "GET":
-        return render(request, 'articles/index.html')
+        return render(request, 'articles/index.html', context)
     else:
         if request.user.is_authenticated:
             request.data["title"] = title
@@ -62,6 +53,19 @@ def index(request):
                 # NOT NULL CONSTRAINT FAILED
                 serializer.save(user=request.user)
                 return Response(serializer.data)
+
+
+@require_POST
+@login_required
+def comment_create(request, article_pk):
+    review = get_object_or_404(Article, pk=article_pk)
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.user = request.user
+        comment.article = article
+        comment.save()
+    return redirect('articles:index', article.pk)
 
 
 def detail(request, article_pk):
@@ -79,3 +83,21 @@ def article_detail(request, article_pk):
 
 def delete(request, article_pk):
     pass
+
+
+요걸 살려서 붙여놓고 감니다~~~
+
+
+def inputScore(request, movie_pk):
+    if request.user.is_authenticated:
+        movie = get_object_or_404(Movie, pk=movie_pk)
+        form = ScoreForm(request.POST)
+        if form.is_valid():
+            score = form.save(commit=False)
+            score.user = request.user
+            score.movie = movie
+            score.save()
+        return redirect('movies:index')
+    else:
+        messages.warning(request, '댓글 작성을 위해서는 로그인이 필요합니다.')
+        return redirect('accounts:login')

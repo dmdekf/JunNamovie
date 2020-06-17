@@ -3,10 +3,11 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 from rest_framework import status
-from rest_framework import viewsets
-from rest_framework.decorators import api_view
+from rest_framework import viewsets, permissions
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .models import Genre, Movie, Score
+from .forms import ScoreForm
 
 from .serializers import GenreSerializer, MovieSerializer, MovieListSerializer, ScoreSerializer
 import json
@@ -64,42 +65,23 @@ def movies_view(request, pk):
     return render(request, 'movies/movie_detail.html', {'movie': movie})
 
 
-@api_view(["GET", "POST"])
-@login_required
-def input_score(request, pk):
-    movie = get_object_or_404(Movie, pk=pk)
-    if request.method == "GET":
-        scores = movie.scores.all()
-        serializer = ScoreSerializer(scores, many=True)
-        return Response(serializer.data)
-    else:
-        if request.user.is_authenticated:
-            request.data["movie"] = movie.id
-            request.data["user"] = request.user.id
-            serializer = RatingSerializer(data=request.data)
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
-
-
 @api_view(["GET"])
 def movies_detail(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
     serializer = MovieSerializer(movie)
     return Response(serializer.data)
 
-    # item number per page
-    num_page = 10
-    paginator = Paginator(data, num_page)
-    page = request.GET.get('page')
-    try:
-        contacts = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        contacts = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        contacts = paginator.page(paginator.num_pages)
-    return render(request, 'brand/basic.html', context={'catid': catid, 'contacts': contacts})
+
+def inputScore(request, movie_pk):
+    if request.user.is_authenticated:
+        movie = get_object_or_404(Movie, pk=movie_pk)
+        form = ScoreForm(request.POST)
+        if form.is_valid():
+            score = form.save(commit=False)
+            score.user = request.user
+            score.movie = movie
+            score.save()
+        return redirect('movies:index')
+    else:
+        messages.warning(request, '댓글 작성을 위해서는 로그인이 필요합니다.')
+        return redirect('accounts:login')
