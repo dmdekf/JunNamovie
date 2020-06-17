@@ -1,18 +1,13 @@
-from .models import Movie
 from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
-from rest_framework import status
-from rest_framework import viewsets, permissions
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
 from .models import Genre, Movie, Score
+from rest_framework import viewsets, permissions
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .forms import ScoreForm
-from django.contrib import messages
 from .serializers import GenreSerializer, MovieSerializer, MovieListSerializer, ScoreSerializer
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count, Avg
+from django.contrib import messages
 # Create your views here.
 
 
@@ -88,6 +83,7 @@ def inputScore(request, movie_pk):
             score.user = request.user
             score.movie = movie
             score.save()
+            messages.info(request, '점수가 등록되었습니다.')
             return redirect('movies:movies_view', movie_pk)
     else:
         messages.warning(request, '점수 등록을 위해서는 로그인이 필요합니다.')

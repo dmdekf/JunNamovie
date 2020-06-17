@@ -32,6 +32,15 @@
 </head>
 <body>
     {% include '_navbar.html' %}
+
+    {% if messages %}
+    {% for message in messages %}
+    <div{% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissable fade show"{% endif %}>{{ message }}
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    </div>
+    {% endfor %}
+    {% endif %}
+
     <div id="app" class="container my-3">
     {% block body %}
     {% endblock body %}

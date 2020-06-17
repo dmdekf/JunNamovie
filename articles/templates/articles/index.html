@@ -41,7 +41,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" @click="onArticleCreate({{user.id}})" class="btn btn-primary">작성하기</button>
+                    <button type="button" @click="onArticleCreate({{user.id}})" data-dismiss="alert" class="btn btn-primary">작성하기</button>
                 </div>
                 </div>
             </div>
@@ -73,7 +73,9 @@
                             <div class="input-group"> 
                                 <form :action="article.id+'/commentcreate/'" method="post">
                                 {% csrf_token %}
-                                    {{ form.as_p }}
+                                    <span class="fieldWrapper">
+                                    {{form}}
+                                    </span>
                                     <button type="submit" class="btn btn-info"><i class="far fa-comment-dots"></i> 댓글 쓰기</button>  
                                 </form>
                             </div>
@@ -126,10 +128,10 @@ const index = new Vue({
       onArticleCreate: function(user) {
         this.articleCreateData.user=user
         $('#articleModal').modal('hide')
+        $().alert('close')
         axios
         .post(SERVER_URL + "articles/api/articlelist/",  this.articleCreateData)
         .then(res =>{
-            console.log(res.data)
             this.articles.push(res.data);
             this.articleCreateData.title = '';
             this.articleCreateData.movie_title = '';

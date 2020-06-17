@@ -9,12 +9,15 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 # Create your views here.
 
+# soicial로그인 관련 코드 출력.
+
 
 def getcode(request):
     code = request.GET['code']
     context = {
         'code': code
     }
+    messages.success(request, '소셜 로그인 임시코드발급성공!')
     return render(request, 'accounts/getcode.html', context)
 
 
@@ -25,7 +28,7 @@ def login(request):
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-            messages.success(request, '로그인 되었습니다!')
+            messages.success(request, '로그인되었습니다. 환영합니다!')
             return redirect('/')
     else:
         form = AuthenticationForm()

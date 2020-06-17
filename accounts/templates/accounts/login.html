@@ -23,7 +23,9 @@
     <a href="{% provider_login_url 'google' %}" class="btn btn-primary w-4 align-self-center "><i class="fab fa-google pr-1"></i> | Signin with Google  </a>
     <div class="w-100 my-2"></div>
     <a href="{% provider_login_url 'github' %}" class="btn btn-github w-4 align-self-center"><i class="fab fa-github pr-1"></i> | Signin with GitHub  </a>
-    {% comment %} <a href="#" onclick="googleLogin()" class="btn btn-primary col-3 align-self-center "><i class="fab fa-google pr-1"></i> | Signin with Google  </a> {% endcomment %}
+    <!--소셜 로그인 get code        
+    <a href="#" onclick="googleLogin()" class="btn btn-primary col-3 align-self-center "><i class="fab fa-google pr-1"></i> | Signin with Google  </a>
+    -->
   <div>
 <script src="{% static 'accounts/js/social_login.js' %}"></script>
 {% endblock %}

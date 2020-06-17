@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .serializers import ArticleSerializer, CommentSerializer, ArticleListSerializer
 from .models import Article, Comment
-from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from .forms import CommentForm
 from rest_framework import viewsets, permissions
@@ -9,7 +8,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.contrib import messages
-from .permissions import IsOwnerOrReadOnly
+from django.contrib.auth.decorators import login_required
 
 
 class CommentViewset(viewsets.ModelViewSet):
@@ -24,6 +23,7 @@ class ArticleListViewset(viewsets.ModelViewSet):
     serializer_class = ArticleListSerializer
 
 
+@login_required
 @api_view(['GET', 'POST'])
 def index(request):
     form = CommentForm()
@@ -41,7 +41,6 @@ def index(request):
             if serializer.is_valid(raise_exception=True):
                 # NOT NULL CONSTRAINT FAILED
                 serializer.save(user=request.user)
-                messages.success(request, '글이 작성되었습니다.')
                 return Response(serializer.data)
 
 
@@ -51,26 +50,28 @@ def detail(request, article_pk):
 
 
 @api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
 def article_detail(request, article_pk):
-    article = get_object_or_404(Article, pk=article_pk)
-    serializer = ArticleSerializer(article)
-    return Response(serializer.data)
-
-
-def delete(request, article_pk):
-    pass
+    if request.user.is_authenticated:
+        article = get_object_or_404(Article, pk=article_pk)
+        serializer = ArticleSerializer(article)
+        return Response(serializer.data)
+    else:
+        messages.warning(request, '게시글을 보기 위해서는 로그인이 필요합니다.')
+        return redirect('accounts:login')
 
 
 @require_POST
-@login_required
 def commentCreate(request, article_pk):
-    article = get_object_or_404(Article, pk=article_pk)
-    form = CommentForm(request.POST)
-    if form.is_valid():
-        comment = form.save(commit=False)
-        comment.user = request.user
-        comment.article = article
-        comment.save()
-        messages.success(request, '댓글이 등록되었습니다.')
-        return redirect('articles:index')
+    if request.user.is_authenticated:
+        article = get_object_or_404(Article, pk=article_pk)
+        article = get_object_or_404(Article, pk=article_pk)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.article = article
+            comment.save()
+            messages.info(request, '댓글이 등록되었습니다.')
+            return redirect('articles:index')
+    messages.warning(request, '댓글 등록을 위해서는 로그인이 필요합니다.')
+    return redirect('accounts:login')
