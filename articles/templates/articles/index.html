@@ -116,18 +116,16 @@ const index = new Vue({
         content: null,
       },
     },
-    
     created() {
         axios
         .get(SERVER_URL + "articles/api/articlelist/")
         .then(res => (this.articles = res.data))
         .catch(err => console.error(err));
-        
   },
   methods:{
       onArticleCreate: function(user) {
         this.articleCreateData.user=user
-        {% comment %} $('#articleModal').modal('hide') {% endcomment %}
+        $('#articleModal').modal('hide')
         axios
         .post(SERVER_URL + "articles/api/articlelist/",  this.articleCreateData)
         .then(res =>{

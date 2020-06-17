@@ -1,9 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .serializers import ArticleSerializer, CommentSerializer, ArticleListSerializer
 from .models import Article, Comment
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-
+from .forms import CommentForm
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -26,8 +26,12 @@ class ArticleListViewset(viewsets.ModelViewSet):
 
 @api_view(['GET', 'POST'])
 def index(request):
+    form = CommentForm()
+    context = {
+        'form': form,
+    }
     if request.method == "GET":
-        return render(request, 'articles/index.html')
+        return render(request, 'articles/index.html', context)
     else:
         if request.user.is_authenticated:
             request.data["title"] = title
@@ -70,4 +74,3 @@ def commentCreate(request, article_pk):
         comment.save()
         messages.success(request, '댓글이 등록되었습니다.')
         return redirect('articles:index')
-
