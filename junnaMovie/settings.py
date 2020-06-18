@@ -17,34 +17,28 @@ from django.core.exceptions import ImproperlyConfigured
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-secret_file = os.path.join(BASE_DIR, 'secrets.json')  # secrets.json 파일 위치를 명시
+# secret_file = os.path.join(BASE_DIR, 'secrets.json')  # secrets.json 파일 위치를 명시
 
-with open(secret_file) as f:
-    secrets = json.loads(f.read())
-
-
-def get_secret(setting, secrets=secrets):
-    """비밀 변수를 가져오거나 명시적 예외를 반환한다."""
-    try:
-        return secrets[setting]
-    except KeyError:
-        error_msg = "Set the {0} environment variable".format(setting)
-        raise ImproperlyConfigured(error_msg)
+# with open(secret_file) as f:
+#     secrets = json.loads(f.read())
 
 
-SECRET_KEY = get_secret("SECRET_KEY")
+# def get_secret(setting, secrets=secrets):
+#     """비밀 변수를 가져오거나 명시적 예외를 반환한다."""
+#     try:
+#         return secrets[setting]
+#     except KeyError:
+#         error_msg = "Set the {0} environment variable".format(setting)
+#         raise ImproperlyConfigured(error_msg)
 
 
-SECRET_KEY = get_secret('SECRET_KEY')
+SECRET_KEY = 'ccw5&9k^7yspr5u8xp^s8ij)6%ri#kc_cmep#n+ra-s%^wrk)1'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '.compute.amazonaws.com',
-    '*',
-]
+ALLOWED_HOSTS = ['*']
 
 
 INSTALLED_APPS = [
@@ -164,7 +158,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
