@@ -61,7 +61,7 @@ def movies_view(request, pk):
     context = {
         'movie': movie,
         'form': form,
-        'scoreAVG': scoreAVG['score__avg'],
+        'scoreAVG': round(scoreAVG['score__avg'], 1),
         'scoreCount': scoreCount['score__count']
     }
     return render(request, 'movies/movie_detail.html', context)

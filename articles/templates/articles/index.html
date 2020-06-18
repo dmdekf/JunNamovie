@@ -54,7 +54,7 @@
                     <div class="panel panel-white post panel-shadow">
                         <div class="post-heading">
                             <div class="pull-left image">
-                                <img :src="'https://www.bootdey.com/img/Content/avatar/avatar'+[[article.id%7+1]]+'.png'" class="img-circle avatar" alt="user profile image">
+                                <img :src="'https://www.bootdey.com/img/Content/avatar/avatar'+[[article.user%7+1]]+'.png'" class="img-circle avatar" alt="user profile image">
                             </div>
                             <div class="pull-left meta">
                             <div class="title h5">
@@ -82,7 +82,7 @@
                             <ul class="comments-list" v-for="comment in article.comments">
                                 <li class="comment">
                                     <a class="pull-left" href="#">
-                                        <img class="avatar" :src="'https://www.bootdey.com/img/Content/avatar/avatar'+[[comment.id%7+1]]+'.png'" alt="avatar">
+                                        <img class="avatar" :src="'https://www.bootdey.com/img/Content/avatar/avatar'+[[comment.user%7+1]]+'.png'" alt="avatar">
                                     </a>
                                     <div class="comment-body">
                                         <div class="comment-heading">
