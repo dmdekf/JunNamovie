@@ -1,7 +1,7 @@
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,venv,django,vue,vuejs,database
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,venv,django,vue,vuejs,database
-
+secrets.json
 ### Database ###
 *.accdb
 *.db
