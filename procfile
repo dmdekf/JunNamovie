@@ -1,1 +1,1 @@
-web: gunicorn junnamovie.wsgi --log-file -
+web: gunicorn junnaMovie.wsgi --log-file -
