@@ -13,30 +13,38 @@
 
 # 기본 설정
 
-1. Python Web Framework : Django 2.1.15 B. Python 3.7+
+1. Python Web Framework : Django 2.1.15 Python 3.8.2
 2. Django REST API 서버 & Vue.js
-3. 서버 :
-4. DB: SQLite
+3. DB: SQLite
 
 - 데이터 수집
+  
   - The Movie Database(TMDb)
+  
 - 프로젝트 디렉토리 구조
 
-- 데이터베이스 모델링(ERD)-
+- 데이터베이스 모델링(ERD)
 
-- restframework - Viewsets
+  ![image-20200622092304168](assets/image-20200622092304168.png)
 
-  - ReadOnlyModelViewSet : get 요청만 허용
-
-  - ModelViewSet : get, put 요청 가능
+- Django REST framework
 
 - 시간 표현 : vue-moment 이용(cdn)
+
 - text post type 출처.
+
   - https://www.bootdey.com/snippets/view/Social-post#html
 
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
+- 기능 설명
+
+  - nav bar 
+  - movie - list, detail, create rank score
+  - articles - articles list, create article, comments, create comment
+  - login, logout, signup - with google and github
+
+  ![image-20200622092456764](assets/image-20200622092456764.png)
+
+  ![image-20200622092524925](assets/image-20200622092524925.png)
 
 ### ✨ [Demo](http://localhost:8000/)
 
@@ -44,6 +52,10 @@ python manage.py runserver
 
 ```sh
 pip install -r requirements
+python manage.py makemigrations accounts articles movies
+python manage.py migrate
+python import_data.py
+python manage.py runserver
 ```
 
 ## Author
