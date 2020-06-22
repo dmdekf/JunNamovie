@@ -17,6 +17,7 @@ from django.core.exceptions import ImproperlyConfigured
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+<<<<<<< HEAD
 # secret_file = os.path.join(BASE_DIR, 'secrets.json')  # secrets.json 파일 위치를 명시
 
 # with open(secret_file) as f:
@@ -33,10 +34,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 SECRET_KEY = 'ccw5&9k^7yspr5u8xp^s8ij)6%ri#kc_cmep#n+ra-s%^wrk)1'
+=======
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'ccw5&9k^7yspr5u8xp^s8ij)6%ri#kc_cmep#n+ra-s%^wrk)1')
+>>>>>>> e931de9fb110e577ec81ad2b7372188f6acb287c
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -76,6 +81,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware,
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -231,3 +237,9 @@ CORS_ALLOW_HEADERS = (
 )
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+# settings.py 
+# # Heroku: Update database configuration from $DATABASE_URL. 
+import dj_database_url 
+db_from_env = dj_database_url.config(conn_max_age=500) 
+DATABASES['default'].update(db_from_env)

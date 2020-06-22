@@ -58,10 +58,14 @@ def movies_view(request, pk):
 
     scoreAVG = Score.objects.filter(movie=pk).aggregate(Avg('score'))
     scoreCount = Score.objects.filter(movie=pk).aggregate(Count('score'))
+    if scoreAVG['score__avg']:
+        scoreTemp = round(scoreAVG['score__avg'], 1)
+    else:
+        scoreTemp = 0
     context = {
         'movie': movie,
         'form': form,
-        'scoreAVG': round(scoreAVG['score__avg'], 1),
+        'scoreAVG': scoreTemp,
         'scoreCount': scoreCount['score__count']
     }
     return render(request, 'movies/movie_detail.html', context)
