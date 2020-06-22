@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
+import dj_database_url
 import os
 import json
 from django.core.exceptions import ImproperlyConfigured
@@ -17,30 +18,12 @@ from django.core.exceptions import ImproperlyConfigured
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-<<<<<<< HEAD
-# secret_file = os.path.join(BASE_DIR, 'secrets.json')  # secrets.json 파일 위치를 명시
-
-# with open(secret_file) as f:
-#     secrets = json.loads(f.read())
-
-
-# def get_secret(setting, secrets=secrets):
-#     """비밀 변수를 가져오거나 명시적 예외를 반환한다."""
-#     try:
-#         return secrets[setting]
-#     except KeyError:
-#         error_msg = "Set the {0} environment variable".format(setting)
-#         raise ImproperlyConfigured(error_msg)
-
-
-SECRET_KEY = 'ccw5&9k^7yspr5u8xp^s8ij)6%ri#kc_cmep#n+ra-s%^wrk)1'
-=======
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'ccw5&9k^7yspr5u8xp^s8ij)6%ri#kc_cmep#n+ra-s%^wrk)1')
->>>>>>> e931de9fb110e577ec81ad2b7372188f6acb287c
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY', 'ccw5&9k^7yspr5u8xp^s8ij)6%ri#kc_cmep#n+ra-s%^wrk)1')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
 
 ALLOWED_HOSTS = ['*']
@@ -80,17 +63,16 @@ INSTALLED_APPS = [
     'articles'
 ]
 
-MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware,
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+MIDDLEWARE = ['whitenoise.middleware.WhiteNoiseMiddleware,
+              'corsheaders.middleware.CorsMiddleware',
+              'django.middleware.security.SecurityMiddleware',
+              'django.contrib.sessions.middleware.SessionMiddleware',
+              'django.middleware.common.CommonMiddleware',
+              'django.middleware.csrf.CsrfViewMiddleware',
+              'django.contrib.auth.middleware.AuthenticationMiddleware',
+              'django.contrib.messages.middleware.MessageMiddleware',
+              'django.middleware.clickjacking.XFrameOptionsMiddleware',
+              ]
 
 ROOT_URLCONF = 'junnaMovie.urls'
 
@@ -238,8 +220,7 @@ CORS_ALLOW_HEADERS = (
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-# settings.py 
-# # Heroku: Update database configuration from $DATABASE_URL. 
-import dj_database_url 
-db_from_env = dj_database_url.config(conn_max_age=500) 
+# settings.py
+# # Heroku: Update database configuration from $DATABASE_URL.
+db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
