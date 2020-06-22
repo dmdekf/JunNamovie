@@ -51,6 +51,7 @@ pip install -r requirements
 👤 **jun & yun**
 
 - Github: [@dmdekf](https://github.com/dmdekf)
+- Github: [@Jun1](https://github.com/pji328)
 
 ## Show your support
 
